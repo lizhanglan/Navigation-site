@@ -1,2 +1,2 @@
 部署本地
-git clone 
+git clone https://github.com/lizhanglan/Navigation-site.git
