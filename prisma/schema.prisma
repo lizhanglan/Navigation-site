@@ -1,0 +1,69 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+datasource db {
+  provider  = "mysql"
+  url       = env("DATABASE_URL") // uses connection pooling
+}
+
+model Setting {
+  id         Int      @id @default(autoincrement())
+  key        String   @unique
+  value      String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("settings")
+  @@index([key])
+}
+
+model Website {
+  id          Int      @id @default(autoincrement())
+  title       String
+  url         String   
+  description String
+  category    Category @relation(fields: [category_id], references: [id])
+  category_id Int
+  thumbnail   String?
+  thumbnail_base64 String?
+  status      String   @default("pending")
+  visits      Int      @default(0)
+  likes       Int      @default(0)
+  last_visited_at DateTime?
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
+  @@map("websites")
+  @@index([category_id])
+  @@index([status])
+  @@index([last_visited_at])
+}
+
+model Category {
+  id         Int       @id @default(autoincrement())
+  name       String
+  slug       String    @unique
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  websites   Website[]
+
+  @@map("categories")
+  @@index([slug])
+}
+
+model FooterLink {
+  id         Int      @id @default(autoincrement())
+  title      String   // 链接标题
+  url        String   @unique // 链接地址
+  isExternal Boolean  @default(true) // 是否为外部链接
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("footer_links")
+  @@index([url])
+}

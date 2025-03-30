@@ -1,0 +1,22 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.WebsiteSettings = void 0;
+var WebsiteSettings;
+(function (WebsiteSettings) {
+    WebsiteSettings["title"] = "title";
+    WebsiteSettings["description"] = "description";
+    WebsiteSettings["keywords"] = "keywords";
+    WebsiteSettings["logo"] = "logo";
+    WebsiteSettings["siteIcp"] = "siteIcp";
+    WebsiteSettings["siteFooter"] = "siteFooter";
+    WebsiteSettings["allowSubmissions"] = "allowSubmissions";
+    WebsiteSettings["requireApproval"] = "requireApproval";
+    WebsiteSettings["itemsPerPage"] = "itemsPerPage";
+    WebsiteSettings["adminPassword"] = "adminPassword";
+    WebsiteSettings["siteUrl"] = "siteUrl";
+    WebsiteSettings["siteEmail"] = "siteEmail";
+    WebsiteSettings["siteCopyright"] = "siteCopyright";
+    WebsiteSettings["googleAnalytics"] = "googleAnalytics";
+    WebsiteSettings["baiduAnalytics"] = "baiduAnalytics";
+    WebsiteSettings["customHtml"] = "customHtml";
+})(WebsiteSettings || (exports.WebsiteSettings = WebsiteSettings = {}));

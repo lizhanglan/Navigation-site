@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .fixed-container {
+    @apply relative w-screen overflow-x-auto;
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .fixed-container::-webkit-scrollbar {
+    display: none;
+  }
+
+  .fixed-container {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+// ... rest of the existing styles ...

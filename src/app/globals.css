@@ -1,0 +1,240 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes float {
+  0% {
+    transform: translateY(0px) scale(1);
+  }
+  50% {
+    transform: translateY(-20px) scale(1.05);
+  }
+  100% {
+    transform: translateY(0px) scale(1);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 0.4;
+  }
+}
+
+@keyframes grain {
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(10%, 10%);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+/* 
+  定义全局 CSS 变量
+  使用 HSL 颜色格式：hsl(色相 饱和度 亮度)
+  例如：--primary: 0 0% 9% 表示：
+  - 色相：0 (红色)
+  - 饱和度：0% (灰度)
+  - 亮度：9% (接近黑色)
+*/
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 0%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 0%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 0%;
+    --primary: 0 0% 9%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    --accent: 0 0% 96.1%;
+    --accent-foreground: 0 0% 9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 0 0% 3.9%;
+    --radius: 0.75rem;
+    --primary-rgb: 124, 58, 237; /* 这是紫色的RGB值，你可以根据你的主题色调整 */
+  }
+
+  .dark {
+    --background: 224 71% 4%;
+    --foreground: 213 31% 91%;
+    --card: 224 71% 4%;
+    --card-foreground: 213 31% 91%;
+    --popover: 224 71% 4%;
+    --popover-foreground: 215 20.2% 65.1%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 1.2%;
+    --secondary: 222.2 47.4% 11.2%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+    --primary-rgb: 139, 92, 246; /* 暗色模式下的紫色RGB值 */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-neutral-200 dark:border-neutral-800;
+  }
+
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased overflow-x-hidden;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  /* 主背景效果 - 仅桌面端 */
+  @media (min-width: 768px) {
+    body::before {
+      @apply content-[''] fixed inset-0 pointer-events-none;
+      background: radial-gradient(
+          circle at 50% 50%,
+          rgba(96, 165, 250, 0.2),
+          transparent 50%
+        ),
+        radial-gradient(
+          circle at 80% 20%,
+          rgba(59, 130, 246, 0.3),
+          transparent 35%
+        ),
+        radial-gradient(
+          circle at 20% 80%,
+          rgba(236, 72, 153, 0.3),
+          transparent 35%
+        ),
+        radial-gradient(
+          circle at 0% 0%,
+          rgba(99, 102, 241, 0.25),
+          transparent 30%
+        ),
+        radial-gradient(
+          circle at 100% 100%,
+          rgba(192, 38, 211, 0.25),
+          transparent 30%
+        );
+      filter: blur(32px);
+      z-index: -2;
+      animation: pulse 8s ease-in-out infinite;
+    }
+
+    /* 点状格子效果 */
+    body::after {
+      @apply content-[''] fixed inset-0 pointer-events-none opacity-40;
+      background: radial-gradient(
+          circle at center,
+          rgba(59, 130, 246, 0.15) 1px,
+          transparent 1px
+        ),
+        radial-gradient(
+          circle at center,
+          rgba(236, 72, 153, 0.15) 1px,
+          transparent 1px
+        );
+      background-size: 24px 24px;
+      background-position: 0 0, 12px 12px;
+      mask-image: radial-gradient(
+        ellipse at center,
+        black 40%,
+        transparent 70%
+      );
+      z-index: -1;
+      animation: grain 8s linear infinite;
+    }
+
+    /* 暗色模式特殊效果 */
+    .dark body::before {
+      background: radial-gradient(
+          circle at 50% 50%,
+          rgba(59, 130, 246, 0.25),
+          transparent 50%
+        ),
+        radial-gradient(
+          circle at 80% 20%,
+          rgba(37, 99, 235, 0.3),
+          transparent 35%
+        ),
+        radial-gradient(
+          circle at 20% 80%,
+          rgba(236, 72, 153, 0.3),
+          transparent 35%
+        ),
+        radial-gradient(
+          circle at 0% 0%,
+          rgba(99, 102, 241, 0.3),
+          transparent 30%
+        ),
+        radial-gradient(
+          circle at 100% 100%,
+          rgba(192, 38, 211, 0.3),
+          transparent 30%
+        );
+      filter: blur(48px);
+    }
+
+    .dark body::after {
+      opacity: 0.25;
+      background: radial-gradient(
+          circle at center,
+          rgba(59, 130, 246, 0.2) 1px,
+          transparent 1px
+        ),
+        radial-gradient(
+          circle at center,
+          rgba(236, 72, 153, 0.2) 1px,
+          transparent 1px
+        );
+    }
+  }
+
+  ::selection {
+    background-color: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+  }
+}
+
+/* 卡片悬浮效果 */
+.card-hover {
+  @apply transition-all duration-300 ease-out;
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.1);
+    .dark & {
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+    }
+  }
+}
+
+/* 隐藏滚动条但保持可滚动功能 */
+.scrollbar-hidden {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari, Opera */
+}
